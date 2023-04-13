@@ -12,16 +12,13 @@ import ninja.Context;
 import ninja.FilterWith;
 import ninja.Result;
 import ninja.Results;
-import ninja.SecureFilter;
 import ninja.params.Param;
+import ninja.params.PathParam;
 
 import java.util.List;
-import org.apache.log4j.LogManager;
 
-import javax.websocket.server.PathParam;
 
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.Filter;
 
 import com.google.inject.Inject;
 
@@ -63,8 +60,27 @@ public class PostController {
 		
 	}
 	
-	
 
+	public Result getMyPost() {
+		
+		return Results.json().render("");
+	}
+	
+    ///////////////////////////////////////////////////////////////////////
+    // update posts
+    ///////////////////////////////////////////////////////////////////////
+	
+	@FilterWith(AuthFilter.class)
+	public Result updatePost(@PathParam("id") Long id,Post newPost) {
+		if(postdao.updatePost(newPost, id)==false) {
+			return Results.badRequest().json().render("Post doesn't exists!!");
+		}
+		
+		return Results.json().render(postdao.updatePost(newPost, id));
+	}
+
+	
+	
     ///////////////////////////////////////////////////////////////////////
     // get post by id
     ///////////////////////////////////////////////////////////////////////
@@ -72,11 +88,6 @@ public class PostController {
 	@FilterWith(AuthFilter.class)
 	public Result getPost(@PathParam("id") Long id) {
 
-//        Post post = null;
-//        if(id!=null) {
-//        	post = postdao.getPost(id);
-//        }
-		log.debug(id);
         Post post = postdao.getPost(id);
         
 
@@ -106,11 +117,11 @@ public class PostController {
 	///////////////////////////////////////////////////////////////////////
 	
 	@FilterWith(AuthFilter.class)
-	public Result addFollwers(@Param(value = "username") String follower,Context context){
+	public Result addFollwers(@Param("influencer") String influencer,Context context){
 		
 		String username = context.getHeader("Authorization");
-		User user = userdao.getUser(username);
-		return Results.json().render(postdao.addFollwer(follower, user));
+		User follower = userdao.getUser(username);
+		return Results.json().render(postdao.addFollwer(influencer, follower));
 		
 	}
 	

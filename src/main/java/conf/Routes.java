@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import controllers.ApiController;
 import controllers.ApplicationController;
 import controllers.ArticleController;
+import controllers.CorsHeaderController;
 import controllers.LoginLogoutController;
 import controllers.PostController;
 import controllers.SignUpController;
@@ -68,6 +69,7 @@ public class Routes implements ApplicationRoutes {
             router.GET().route("/setup").with(ApplicationController::setup);
         }
         
+        router.OPTIONS().route("/.*").with(CorsHeaderController::allowCors);
         ///////////////////////////////////////////////////////////////////////
         // Login / Logout
         ///////////////////////////////////////////////////////////////////////
@@ -78,6 +80,7 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         // add signUp details
         ///////////////////////////////////////////////////////////////////////
+        
         router.POST().route("/signup").with(SignUpController::addUserCredentials);
         router.POST().route("/login").with(LoginLogoutController::loginPost);
         ///////////////////////////////////////////////////////////////////////
@@ -94,10 +97,16 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/post").with(PostController::getAllPost);
         router.POST().route("/post").with(PostController::addPosts);
         router.GET().route("/post/{id}").with(PostController::getPost);
+        router.PUT().route("/post/{id}").with(PostController::updatePost);
         router.DELETE().route("/post/{id}").with(PostController::deletePost);
         
+//        router.GET().route("/post/me").with(PostController::getMyPost);
         
-        router.POST().route("/followers").with(PostController::addFollwers);
+        router.POST().route("/followers/{influencer}").with(PostController::addFollwers);
+        
+        
+        
+        
         
         ///////////////////////////////////////////////////////////////////////
         // Create new article

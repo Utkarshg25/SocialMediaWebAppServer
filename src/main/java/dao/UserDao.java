@@ -69,7 +69,7 @@ public class UserDao {
         return false; 
     }
 
-    @UnitOfWork
+    
     public boolean isUserExist(String username) {
     	
     	EntityManager entityManager = entityManagerProvider.get();
@@ -84,7 +84,7 @@ public class UserDao {
     	return false;
     }
     
-    @UnitOfWork
+   
     public User getUser(String username) {
     	EntityManager entityManager = entityManagerProvider.get();
     	

@@ -26,14 +26,15 @@ public class PostDao {
 	@Inject
     Provider<EntityManager> entitiyManagerProvider;
 	
-	
+	@Inject
+	private UserDao userdao;
 
     ///////////////////////////////////////////////////////////////////////
     // get all posts
     ///////////////////////////////////////////////////////////////////////
 	
 	
-	@UnitOfWork
+	
     public List<Post> getAllPosts() {
         
         EntityManager entityManager = entitiyManagerProvider.get();
@@ -52,7 +53,7 @@ public class PostDao {
     ///////////////////////////////////////////////////////////////////////
 	
 	
-	@UnitOfWork
+
 	public Post getPost(Long id) {
 		EntityManager entityManager = entitiyManagerProvider.get();
 		
@@ -123,18 +124,39 @@ public class PostDao {
 	
 
     ///////////////////////////////////////////////////////////////////////
+    // update posts
+    ///////////////////////////////////////////////////////////////////////
+	@Transactional
+	public boolean updatePost(Post newPost,Long id) {
+		EntityManager entityManager = entitiyManagerProvider.get();
+		Post post = getPost(id);
+		if(post!=null) {
+			post.subtitle = newPost.subtitle;
+			post.image = newPost.image;
+			post.content = newPost.content;
+			entityManager.merge(post);
+			return true;
+		}
+		
+		return false;
+	}
+	
+
+    ///////////////////////////////////////////////////////////////////////
     // add followers
     ///////////////////////////////////////////////////////////////////////
 	
 	@Transactional
-	public User addFollwer(String follower,User user) {
+	public String addFollwer(String influencer,User follower) {
 		EntityManager entityManager = entitiyManagerProvider.get();
-		if(user.followers==null) {
-			user.followers = new ArrayList<>();
+		
+		User influencer_user = userdao.getUser(influencer);
+		if(influencer_user.followers==null) {
+			influencer_user.followers = new ArrayList<>();
 		}
-		user.followers.add(user);
-		entityManager.merge(user);
-		return user;
+		influencer_user.followers.add(follower);
+		entityManager.merge(influencer_user);
+		return "Successfully inserted";
 	}
 	
 	

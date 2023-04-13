@@ -18,14 +18,17 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
-	public String descr;
+	public String subtitle;
+	public String image;
+	public String content;
 	public Timestamp postedAt;
 	
 	public Post() {}
 
-	public Post(String descr, Timestamp postedAt) {
+	public Post(String content,String subtitle, Timestamp postedAt) {
 		super();
-		this.descr = descr;
+		this.content = content;
+		this.subtitle = subtitle;
 		this.postedAt = new Timestamp(System.currentTimeMillis());
 	}
 	

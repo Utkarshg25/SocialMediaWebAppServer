@@ -42,6 +42,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import dao.UserDao;
+import models.LoginRequestDto;
+import models.LoginResponseDto;
 
 @Singleton
 public class LoginLogoutController {
@@ -59,11 +61,10 @@ public class LoginLogoutController {
 
     }
 
-    public Result loginPost(@Param("username") String username,
-                            @Param("password") String password,
-                            @Param("rememberMe") Boolean rememberMe,
-                            Context context) {
+    public Result loginPost(LoginRequestDto loginRequestDto) {
 
+    	String username = loginRequestDto.username;
+    	String password = loginRequestDto.password;
         boolean isUserNameAndPasswordValid = userDao.isUserAndPasswordValid(username, password);
 
         if (isUserNameAndPasswordValid) {
@@ -74,12 +75,8 @@ public class LoginLogoutController {
 
         } else {
 
-            // something is wrong with the input or password not found.
-            context.getFlashScope().put("username", username);
-            context.getFlashScope().put("rememberMe", String.valueOf(rememberMe));
-            context.getFlashScope().error("login.errorLogin");
 
-            return Results.json().render("");
+            return Results.json().render("invalid credentials");
 
         }
 
@@ -100,8 +97,7 @@ public class LoginLogoutController {
 
 }
 
-class LoginResponseDto{
-	public String token;
-}
+
+
 
 

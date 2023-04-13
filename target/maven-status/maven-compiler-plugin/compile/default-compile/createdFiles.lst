@@ -15,6 +15,7 @@ dao\PostDao.class
 conf\Routes.class
 models\ArticleDto.class
 dao\ArticleDao.class
+controllers\CorsHeaderController.class
 dao\SetupDao.class
 models\ArticlesDto.class
 controllers\ArticleController.class
