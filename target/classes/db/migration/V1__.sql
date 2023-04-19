@@ -19,6 +19,9 @@ create table User_data (
     isAdmin boolean not null,
     password varchar(255),
     username varchar(255),
+    email varchar(255),
+    mobile_number varchar(10),
+    address varchar(255),
     primary key (id)
 );
     

@@ -82,10 +82,18 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         
         router.POST().route("/signup").with(SignUpController::addUserCredentials);
+        router.GET().route("/signup/{username}").with(SignUpController::getUser);
+        router.GET().route("/signup/{id}").with(SignUpController::getUserById);
+        router.PUT().route("/signup/{id}").with(SignUpController::registerUser);
+        
         router.POST().route("/login").with(LoginLogoutController::loginPost);
+        
+        
         ///////////////////////////////////////////////////////////////////////
         // Create new article
         ///////////////////////////////////////////////////////////////////////
+        
+        
         router.GET().route("/article/new").with(ArticleController::articleNew);
         router.POST().route("/article/new").with(ArticleController::articleNewPost);
         
@@ -100,7 +108,7 @@ public class Routes implements ApplicationRoutes {
         router.PUT().route("/post/{id}").with(PostController::updatePost);
         router.DELETE().route("/post/{id}").with(PostController::deletePost);
         
-//        router.GET().route("/post/me").with(PostController::getMyPost);
+        router.GET().route("/post/me/{username}").with(PostController::getMyPost);
         
         router.POST().route("/followers/{influencer}").with(PostController::addFollwers);
         

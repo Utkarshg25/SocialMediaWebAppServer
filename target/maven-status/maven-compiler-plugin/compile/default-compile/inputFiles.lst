@@ -1,6 +1,7 @@
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\conf\StartupActions.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\controllers\LoginLogoutController.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\controllers\PostController.java
+C:\Users\utkar\eclipse-workspace\proj\src\main\java\models\LoginRequestDto.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\models\UserDto.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\models\Article.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\filters\LoggerFilter.java
@@ -14,9 +15,11 @@ C:\Users\utkar\eclipse-workspace\proj\src\main\java\controllers\ArticleControlle
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\conf\Module.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\dao\SignUpDao.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\filters\AuthFilter.java
+C:\Users\utkar\eclipse-workspace\proj\src\main\java\models\LoginResponseDto.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\controllers\SignUpController.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\controllers\ApiController.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\dao\UserDao.java
+C:\Users\utkar\eclipse-workspace\proj\src\main\java\filters\CorsFilter.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\models\User.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\conf\Filters.java
 C:\Users\utkar\eclipse-workspace\proj\src\main\java\conf\ServletModule.java

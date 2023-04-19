@@ -50,7 +50,7 @@ public class UserDao {
     @Inject
     Provider<EntityManager> entityManagerProvider;
     
-    @UnitOfWork
+
     public boolean isUserAndPasswordValid(String username, String password) {
         
         if (username != null && password != null) {

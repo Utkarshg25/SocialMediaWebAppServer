@@ -1,6 +1,4 @@
 package dao;
-
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,43 +20,49 @@ import models.User;
 import ninja.jpa.UnitOfWork;
 
 public class PostDao {
-
 	@Inject
     Provider<EntityManager> entitiyManagerProvider;
 	
 	@Inject
 	private UserDao userdao;
 
+	
+	
     ///////////////////////////////////////////////////////////////////////
     // get all posts
     ///////////////////////////////////////////////////////////////////////
-	
-	
-	
-    public List<Post> getAllPosts() {
-        
+    public List<Post> getAllPosts() { 
         EntityManager entityManager = entitiyManagerProvider.get();
         
         TypedQuery<Post> q = entityManager.createQuery("SELECT x FROM Post x", Post.class);
-        List<Post> posts = q.getResultList();        
+        List<Post> posts = q.getResultList();       
+        return posts;      
+    }
+    
+    
+    
+    
+	///////////////////////////////////////////////////////////////////////
+	// get posts by Username
+	///////////////////////////////////////////////////////////////////////  
+    public List<Post> getUserPosts(String username){
 
-        
-        return posts;
-        
+        EntityManager entityManager = entitiyManagerProvider.get();
+        TypedQuery<User> user = entityManager.createQuery("SELECT x FROM User_data x WHERE username = :usernameParam", User.class);
+        User userData = user.setParameter("usernameParam", username).getSingleResult();   
+    	List<Post> posts = userData.post;
+    	return posts;
     }
 
 
+    
+    
     ///////////////////////////////////////////////////////////////////////
     // get post by id
     ///////////////////////////////////////////////////////////////////////
-	
-	
-
 	public Post getPost(Long id) {
-		EntityManager entityManager = entitiyManagerProvider.get();
-		
-		TypedQuery<Post> q = entityManager.createQuery("SELECT x FROM Post x WHERE id = :idParam", Post.class);
-		
+		EntityManager entityManager = entitiyManagerProvider.get();		
+		TypedQuery<Post> q = entityManager.createQuery("SELECT x FROM Post x WHERE id = :idParam", Post.class);		
 		Post post =  getSingleResult(q.setParameter("idParam", id));
 		
 		return post;
@@ -69,31 +73,24 @@ public class PostDao {
     ///////////////////////////////////////////////////////////////////////
     // delete post
     ///////////////////////////////////////////////////////////////////////
-	
-	
 	private static <T> T getSingleResult(TypedQuery<T> query) {
         query.setMaxResults(1);
         List<T> list = query.getResultList();
         if (list == null || list.isEmpty()) {
             return null;
         }
-
         return list.get(0);
     }
 
 
 	@Transactional
-	public boolean deletePost(Long id) {
-		
+	public boolean deletePost(Long id) {		
 		EntityManager entityManager = entitiyManagerProvider.get();
-		Post post = getPost(id);
-		
+		Post post = getPost(id);		
 		if(post != null) {
 			entityManager.remove(post);
 			return true;
 		}
-		
-		
 		return false;
 	}
 	
@@ -102,14 +99,10 @@ public class PostDao {
     ///////////////////////////////////////////////////////////////////////
     // add post
     ///////////////////////////////////////////////////////////////////////
-	
-	
 	@Transactional
 	public Post addPosts(Post post,User user) {
-		
 		post.postedAt=new Timestamp(System.currentTimeMillis());
 		EntityManager entityManager = entitiyManagerProvider.get();	
-		
 		entityManager.persist(post);
 		if(user.post==null) {
 			user.post = new ArrayList<>();
@@ -118,7 +111,6 @@ public class PostDao {
 		entityManager.merge(user);
 		
 		return post;
-		
 	}
 	
 	
@@ -137,15 +129,14 @@ public class PostDao {
 			entityManager.merge(post);
 			return true;
 		}
-		
 		return false;
 	}
 	
 
+	
     ///////////////////////////////////////////////////////////////////////
     // add followers
     ///////////////////////////////////////////////////////////////////////
-	
 	@Transactional
 	public String addFollwer(String influencer,User follower) {
 		EntityManager entityManager = entitiyManagerProvider.get();

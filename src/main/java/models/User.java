@@ -37,6 +37,10 @@ public class User {
     public String fullname;
     public boolean isAdmin;
     
+    public String Email;
+    public String Mobile_Number;
+    public String Address;
+    
     
     @OneToMany(fetch=FetchType.EAGER)
     public List<Post> post;
@@ -54,6 +58,13 @@ public class User {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+    }
+    
+    public User(UserDto userdto) {
+    	this.username = userdto.username;
+    	this.fullname = userdto.fullname;
+//    	this.Address = userdto.Address;
+    	this.password = userdto.password;
     }
  
 }
